@@ -2,6 +2,8 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import Paper from "@mui/material/Paper";
+import "../styles.css";
 
 const InputField = () => {
   const [inputUserName, setInputUserName] = useState("");
@@ -59,6 +61,9 @@ const InputField = () => {
       {successAlertFlag && <Alert severity="success"> success </Alert>}
       {errorAlertFlag && <Alert severity="error"> error </Alert>}
       <div>
+        <Paper elevation={0}>
+          <h2>Create New Account</h2>
+        </Paper>
         <TextField
           sx={{ m: 1, marginTop: 2 }}
           id="outlined-basic"
