@@ -6,7 +6,7 @@ export default function App() {
   return (
     <div className="App">
       <div className="content">
-        <Paper sx={{ m: "auto", width: "280px" }} elevation={0}>
+        <Paper sx={{ m: "auto", width: "320px" }} elevation={0}>
           <InputFiled />
         </Paper>
       </div>

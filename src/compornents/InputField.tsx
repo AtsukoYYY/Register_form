@@ -27,34 +27,44 @@ const InputField = () => {
   };
   const [successAlertFlag, setSuccessAlertFlag] = useState(false);
   const [errorAlertFlag, setErrorAlertFlag] = useState(false);
+
+  const [isNullUserName, setIsNullUserName] = useState(false);
+  const [isNullEmail, setIsNullEmail] = useState(false);
+  const [isNullPassword, setIsNullPassword] = useState(false);
+  const [isWrongPassword, setIsWrongPassword] = useState(false);
+
+  let isError = false;
+
   const ClickRegister = () => {
+    isError = false;
     if (inputUserName.length <= 0) {
-      setSuccessAlertFlag(false);
-      setErrorAlertFlag(true);
-      return;
+      setIsNullUserName(true);
+      isError = true;
     }
     if (inputEmail.length <= 0) {
-      setSuccessAlertFlag(false);
-      setErrorAlertFlag(true);
-      return;
+      setIsNullEmail(true);
+      isError = true;
     }
     if (inputPassword.length <= 0) {
-      setSuccessAlertFlag(false);
-      setErrorAlertFlag(true);
-      return;
-    }
-    if (inputPasswordConfirm.length <= 0) {
-      setSuccessAlertFlag(false);
-      setErrorAlertFlag(true);
-      return;
+      setIsNullPassword(true);
+      isError = true;
     }
     if (inputPassword !== inputPasswordConfirm) {
+      setIsWrongPassword(true);
+      isError = true;
+    }
+    if (isError === true) {
       setSuccessAlertFlag(false);
       setErrorAlertFlag(true);
-      return;
     }
-    setSuccessAlertFlag(true);
-    setErrorAlertFlag(false);
+    if (isError === false) {
+      setSuccessAlertFlag(true);
+      setErrorAlertFlag(false);
+      setIsNullUserName(false);
+      setIsNullEmail(false);
+      setIsNullPassword(false);
+      setIsWrongPassword(false);
+    }
   };
   return (
     <div className="App">
@@ -65,24 +75,31 @@ const InputField = () => {
           <h2>Create New Account</h2>
         </Paper>
         <TextField
+          error={isNullUserName}
           sx={{ m: 1, marginTop: 2 }}
           id="outlined-basic"
           label="user name"
           value={inputUserName}
           onChange={handleChangeUserName}
         />
+        {isNullUserName && (
+          <p className="helperText">Please input at least 1 character</p>
+        )}
       </div>
       <div>
         <TextField
+          error={isNullEmail}
           sx={{ m: 1 }}
           id="outlined-basic"
           label="email"
           value={inputEmail}
           onChange={handleChangeEmail}
         />
+        {isNullEmail && <p className="helperText">Please input your Email</p>}
       </div>
       <div>
         <TextField
+          error={isNullPassword}
           sx={{ m: 1 }}
           id="outlined-basic"
           label="password"
@@ -90,9 +107,13 @@ const InputField = () => {
           value={inputPassword}
           onChange={handleChangePassword}
         />
+        {isNullPassword && (
+          <p className="helperText">Please input at least 1 character</p>
+        )}
       </div>
       <div>
         <TextField
+          error={isWrongPassword}
           sx={{ m: 1 }}
           id="outlined-basic"
           label="password confirm "
@@ -100,8 +121,11 @@ const InputField = () => {
           value={inputPasswordConfirm}
           onChange={handleChangePasswordConfirm}
         />
+        {isWrongPassword && (
+          <p className="helperText">Please confirm your password</p>
+        )}
       </div>
-      <Button onClick={ClickRegister} sx={{ m: 1 }} variant="contained">
+      <Button onClick={ClickRegister} sx={{ m: 2 }} variant="contained">
         Register
       </Button>
     </div>

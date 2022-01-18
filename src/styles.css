@@ -9,3 +9,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.helperText {
+  font-size: 1px;
+}
