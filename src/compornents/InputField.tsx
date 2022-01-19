@@ -30,7 +30,7 @@ const InputField = () => {
 
   const [isNullUserName, setIsNullUserName] = useState(false);
   const [isNullEmail, setIsNullEmail] = useState(false);
-  const [isNullPassword, setIsNullPassword] = useState(false);
+  const [isShortPassword, setIsShortPassword] = useState(false);
   const [isWrongPassword, setIsWrongPassword] = useState(false);
 
   let isError = false;
@@ -40,18 +40,29 @@ const InputField = () => {
     if (inputUserName.length <= 0) {
       setIsNullUserName(true);
       isError = true;
+    } else {
+      setIsNullUserName(false);
     }
     if (inputEmail.length <= 0) {
       setIsNullEmail(true);
       isError = true;
+    } else {
+      setIsNullEmail(false);
     }
-    if (inputPassword.length <= 0) {
-      setIsNullPassword(true);
+    if (inputPassword.length <= 11) {
+      setIsShortPassword(true);
       isError = true;
+    } else {
+      setIsShortPassword(false);
     }
-    if (inputPassword !== inputPasswordConfirm) {
+    if (
+      inputPassword !== inputPasswordConfirm ||
+      inputPasswordConfirm.length <= 0
+    ) {
       setIsWrongPassword(true);
       isError = true;
+    } else {
+      setIsWrongPassword(false);
     }
     if (isError === true) {
       setSuccessAlertFlag(false);
@@ -62,7 +73,7 @@ const InputField = () => {
       setErrorAlertFlag(false);
       setIsNullUserName(false);
       setIsNullEmail(false);
-      setIsNullPassword(false);
+      setIsShortPassword(false);
       setIsWrongPassword(false);
     }
   };
@@ -99,7 +110,7 @@ const InputField = () => {
       </div>
       <div>
         <TextField
-          error={isNullPassword}
+          error={isShortPassword}
           sx={{ m: 1 }}
           id="outlined-basic"
           label="password"
@@ -107,8 +118,8 @@ const InputField = () => {
           value={inputPassword}
           onChange={handleChangePassword}
         />
-        {isNullPassword && (
-          <p className="helperText">Please input at least 1 character</p>
+        {isShortPassword && (
+          <p className="helperText">Please input at least 12 character</p>
         )}
       </div>
       <div>
@@ -116,7 +127,7 @@ const InputField = () => {
           error={isWrongPassword}
           sx={{ m: 1 }}
           id="outlined-basic"
-          label="password confirm "
+          label="confirm password"
           type="password"
           value={inputPasswordConfirm}
           onChange={handleChangePasswordConfirm}
